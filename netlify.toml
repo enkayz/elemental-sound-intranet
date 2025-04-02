@@ -4,6 +4,22 @@
 
 [build.environment]
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NODE_VERSION = "18"
 
 [[plugins]]
-  package = "@netlify/plugin-nextjs" 
+  package = "@netlify/plugin-nextjs"
+
+# Ensure we include our db.json file in the build
+[[plugins]]
+  package = "netlify-plugin-inline-functions-env"
+
+# Function directory settings
+[functions]
+  directory = ".netlify/functions/"
+  included_files = ["src/data/db.json"]
+
+# Add redirects to ensure API routes work properly
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/nextjs_api/:splat"
+  status = 200 
